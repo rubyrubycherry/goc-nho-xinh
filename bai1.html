@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="vi" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài học JavaScript</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+      font-family: 'Be Vietnam Pro', sans-serif;
+    }
+    
+    .code-block {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 1.5rem;
+      overflow-x: auto;
+      position: relative;
+    }
+    
+    .code-block code {
+      color: #e2e8f0;
+      font-family: 'Courier New', monospace;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    
+    .keyword { color: #c678dd; }
+    .string { color: #98c379; }
+    .comment { color: #5c6370; font-style: italic; }
+    .function { color: #61afef; }
+    .number { color: #d19a66; }
+    
+    .copy-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    
+    .nav-button {
+      transition: all 0.3s ease;
+    }
+    
+    .nav-button:hover {
+      transform: translateX(-4px);
+    }
+    
+    .nav-button.next:hover {
+      transform: translateX(4px);
+    }
+    
+    .section-card {
+      transition: all 0.3s ease;
+    }
+    
+    .section-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .highlight-box {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border-left: 4px solid #f59e0b;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+    }
+    
+    .info-box {
+      background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+      border-left: 4px solid #3b82f6;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+    }
+    
+    .success-box {
+      background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+      border-left: 4px solid #10b981;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+    }
+    
+    .progress-indicator {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: #e5e7eb;
+      z-index: 100;
+    }
+    
+    .progress-bar-scroll {
+      height: 100%;
+      background: linear-gradient(90deg, #10b981 0%, #34d399 100%);
+      width: 0%;
+      transition: width 0.1s ease;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100"><!-- Scroll Progress Indicator -->
+  <div class="progress-indicator">
+   <div id="scroll-progress" class="progress-bar-scroll"></div>
+  </div>
+  <div class="h-full w-full overflow-auto"><!-- Header -->
+   <header class="bg-white/80 backdrop-blur-sm shadow-sm sticky top-0 z-50">
+    <div class="max-w-4xl mx-auto px-4 py-4">
+     <div class="flex items-center justify-between"><a href="index.html" class="nav-button flex items-center gap-2 text-emerald-600 hover:text-emerald-700 font-semibold"> <span>←</span> <span>Quay về khóa học</span> </a>
+      <div class="flex items-center gap-3"><span class="text-sm text-gray-500 font-medium">Bài 1 / 28</span> <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+      </div>
+     </div>
+    </div>
+   </header><!-- Main Content -->
+   <main class="max-w-4xl mx-auto px-4 py-8"><!-- Lesson Title -->
+    <div class="bg-white rounded-2xl shadow-lg p-8 mb-6">
+     <div class="flex items-center gap-3 mb-4"><span class="text-4xl">🎉</span> <span class="px-4 py-1 bg-emerald-100 text-emerald-700 rounded-full text-sm font-semibold">Bài 1</span>
+     </div>
+     <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Welcome to Learn JavaScript!</h1>
+     <p class="text-gray-600 text-lg">Chào mừng bạn đến với khóa học JavaScript! Hãy bắt đầu hành trình khám phá ngôn ngữ lập trình phổ biến nhất thế giới.</p>
+    </div><!-- Lesson Content -->
+    <div class="space-y-6"><!-- Introduction Section -->
+     <section class="section-card bg-white rounded-2xl shadow-lg p-8">
+      <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2"><span class="text-2xl">📚</span> Giới thiệu</h2>
+      <p class="text-gray-700 leading-relaxed mb-4">JavaScript là ngôn ngữ lập trình được sử dụng rộng rãi nhất trên thế giới. Nó chạy trên hầu hết các trình duyệt web và cho phép bạn tạo ra các trang web tương tác, ứng dụng web, ứng dụng di động và thậm chí cả ứng dụng máy chủ.</p>
+      <p class="text-gray-700 leading-relaxed">Trong khóa học này, bạn sẽ học từ những kiến thức cơ bản nhất cho đến các khái niệm nâng cao của JavaScript. Mỗi bài học được thiết kế để dễ hiểu và kèm theo các ví dụ thực tế.</p>
+     </section><!-- Key Points Section -->
+     <section class="section-card bg-white rounded-2xl shadow-lg p-8">
+      <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2"><span class="text-2xl">🎯</span> Những điều bạn sẽ học</h2>
+      <ul class="space-y-3">
+       <li class="flex items-start gap-3"><span class="text-emerald-500 font-bold text-xl mt-1">✓</span> <span class="text-gray-700 leading-relaxed">Cú pháp cơ bản của JavaScript và cách viết code đầu tiên</span></li>
+       <li class="flex items-start gap-3"><span class="text-emerald-500 font-bold text-xl mt-1">✓</span> <span class="text-gray-700 leading-relaxed">Các kiểu dữ liệu và cấu trúc dữ liệu trong JavaScript</span></li>
+       <li class="flex items-start gap-3"><span class="text-emerald-500 font-bold text-xl mt-1">✓</span> <span class="text-gray-700 leading-relaxed">Cách làm việc với biến, hàm và đối tượng</span></li>
+       <li class="flex items-start gap-3"><span class="text-emerald-500 font-bold text-xl mt-1">✓</span> <span class="text-gray-700 leading-relaxed">Xây dựng ứng dụng thực tế với JavaScript</span></li>
+      </ul>
+     </section><!-- Code Example Section -->
+     <section class="section-card bg-white rounded-2xl shadow-lg p-8">
+      <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2"><span class="text-2xl">💻</span> Ví dụ đầu tiên</h2>
+      <p class="text-gray-700 leading-relaxed mb-4">Hãy bắt đầu với chương trình JavaScript đầu tiên của bạn - in ra dòng chữ "Hello, World!":</p>
+      <div class="code-block"><button class="copy-btn" onclick="copyCode(this)">📋 Copy</button> <code><span class="comment">// Chương trình JavaScript đầu tiên của bạn</span> <span class="function">console</span>.<span class="function">log</span>(<span class="string">"Hello, World!"</span>); <span class="comment">// In ra một thông báo khác</span> <span class="function">console</span>.<span class="function">log</span>(<span class="string">"Chào mừng đến với JavaScript!"</span>);</code>
+      </div>
+     </section><!-- Info Box -->
+     <div class="info-box">
+      <div class="flex items-start gap-3"><span class="text-2xl">💡</span>
+       <div>
+        <h3 class="font-bold text-blue-900 mb-2">Lưu ý</h3>
+        <p class="text-blue-800">Để chạy code JavaScript, bạn có thể mở Console trong trình duyệt (nhấn F12) và dán đoạn code vào đó, sau đó nhấn Enter.</p>
+       </div>
+      </div>
+     </div><!-- Practice Section -->
+     <section class="section-card bg-white rounded-2xl shadow-lg p-8">
+      <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2"><span class="text-2xl">✏️</span> Thực hành</h2>
+      <p class="text-gray-700 leading-relaxed mb-4">Hãy thử viết một chương trình JavaScript đơn giản:</p>
+      <div class="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl p-6 border-2 border-emerald-200">
+       <p class="font-semibold text-gray-800 mb-2">Bài tập 1:</p>
+       <p class="text-gray-700">Sử dụng <code class="px-2 py-1 bg-gray-800 text-white rounded text-sm">console.log()</code> để in ra tên của bạn.</p>
+      </div>
+     </section><!-- Success Box -->
+     <div class="success-box">
+      <div class="flex items-start gap-3"><span class="text-2xl">🎉</span>
+       <div>
+        <h3 class="font-bold text-emerald-900 mb-2">Chúc mừng!</h3>
+        <p class="text-emerald-800">Bạn đã hoàn thành bài học đầu tiên. Hãy quay về trang chủ và đánh dấu bài học này là đã hoàn thành!</p>
+       </div>
+      </div>
+     </div><!-- Navigation Buttons -->
+     <div class="flex items-center justify-between gap-4 pt-6"><a href="#" class="nav-button flex items-center gap-2 px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold rounded-xl transition-colors"> <span>←</span> <span>Bài trước</span> </a> <a href="bai2.html" class="nav-button next flex items-center gap-2 px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-xl transition-colors"> <span>Bài tiếp theo</span> <span>→</span> </a>
+     </div><!-- Mark as Complete -->
+     <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+      <p class="text-gray-600 mb-4">Đã học xong bài này?</p><button class="px-8 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-xl transition-colors"> ✓ Đánh dấu đã hoàn thành </button>
+     </div>
+    </div><!-- Footer -->
+    <footer class="text-center py-8 text-gray-500 text-sm mt-8">
+     <p>💪 Tiếp tục học tập - Bạn làm rất tốt!</p>
+    </footer>
+   </main>
+  </div>
+  <script>
+    // Scroll progress indicator
+    window.addEventListener('scroll', function() {
+      const winScroll = document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      document.getElementById('scroll-progress').style.width = scrolled + '%';
+    });
+
+    // Copy code function
+    function copyCode(button) {
+      const codeBlock = button.parentElement;
+      const code = codeBlock.querySelector('code').innerText;
+      
+      navigator.clipboard.writeText(code).then(() => {
+        const originalText = button.textContent;
+        button.textContent = '✓ Đã copy!';
+        button.style.background = 'rgba(16, 185, 129, 0.3)';
+        
+        setTimeout(() => {
+          button.textContent = originalText;
+          button.style.background = 'rgba(255, 255, 255, 0.1)';
+        }, 2000);
+      });
+    }
+
+    // Mark as complete button
+    document.querySelector('button').addEventListener('click', function() {
+      this.innerHTML = '✓ Đã hoàn thành!';
+      this.classList.remove('bg-emerald-500', 'hover:bg-emerald-600');
+      this.classList.add('bg-gray-400');
+      this.disabled = true;
+      
+      // Show success message
+      const toast = document.createElement('div');
+      toast.className = 'fixed bottom-4 left-1/2 -translate-x-1/2 px-6 py-3 bg-emerald-500 text-white rounded-xl shadow-lg font-medium z-50';
+      toast.textContent = '🎉 Tuyệt vời! Hãy quay về trang chủ để cập nhật tiến độ';
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 0.3s';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    });
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c8267b650596e43',t:'MTc3MDEyNjcwOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
