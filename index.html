@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="vi" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tiến Trình Khóa Học</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="/_sdk/data_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+      font-family: 'Be Vietnam Pro', sans-serif;
+    }
+    
+    .progress-bar {
+      background: linear-gradient(90deg, #10b981 0%, #34d399 100%);
+      transition: width 0.5s ease-out;
+    }
+    
+    .lesson-card {
+      transition: all 0.3s ease;
+    }
+    
+    .lesson-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .completed {
+      background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+      border-color: #10b981;
+    }
+    
+    .completed .lesson-title {
+      color: #047857;
+    }
+    
+    .completed .lesson-number {
+      background: #10b981;
+      color: white;
+    }
+    
+    .checkmark {
+      animation: checkmark 0.3s ease-in-out;
+    }
+    
+    @keyframes checkmark {
+      0% { transform: scale(0); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+    
+    .confetti {
+      position: fixed;
+      pointer-events: none;
+      z-index: 1000;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+ </head>
+ <body class="h-full bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+  <div id="app" class="h-full w-full overflow-auto"><!-- Header -->
+   <header class="bg-white/80 backdrop-blur-sm shadow-sm sticky top-0 z-50">
+    <div class="max-w-4xl mx-auto px-4 py-4">
+     <h1 id="course-title" class="text-2xl md:text-3xl font-bold text-gray-800 text-center">📚 Khóa Học Của Tôi</h1>
+    </div>
+   </header><!-- Progress Section -->
+   <div class="max-w-4xl mx-auto px-4 py-6">
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+     <div class="flex items-center justify-between mb-4">
+      <div class="flex items-center gap-3"><span class="text-3xl">🎯</span>
+       <div>
+        <p class="text-sm text-gray-500 font-medium">Tiến độ hoàn thành</p>
+        <p id="progress-text" class="text-2xl font-bold text-gray-800">0 / 28 bài học</p>
+       </div>
+      </div>
+      <div id="progress-percent" class="text-4xl font-bold text-emerald-500">
+       0%
+      </div>
+     </div>
+     <div class="relative h-4 bg-gray-200 rounded-full overflow-hidden">
+      <div id="progress-fill" class="progress-bar h-full rounded-full" style="width: 0%"></div>
+     </div>
+     <p id="motivation-text" class="text-center mt-4 text-gray-600 font-medium">🚀 Bắt đầu hành trình học tập của bạn!</p>
+    </div><!-- Mark Complete Section -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+     <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">✅ Đánh dấu bài học đã hoàn thành</h2>
+     <div class="flex flex-col sm:flex-row gap-3">
+      <div class="flex-1"><label for="lesson-select" class="block text-sm text-gray-600 mb-2">Chọn bài học:</label> <select id="lesson-select" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-emerald-500 focus:outline-none transition-colors bg-white"> <option value="">-- Chọn bài học --</option> </select>
+      </div>
+      <div class="flex gap-2 sm:items-end"><button id="mark-complete-btn" class="flex-1 sm:flex-none px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"> Hoàn thành ✓ </button> <button id="mark-incomplete-btn" class="flex-1 sm:flex-none px-6 py-3 bg-gray-400 hover:bg-gray-500 text-white font-semibold rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"> Bỏ đánh dấu </button>
+      </div>
+     </div>
+    </div><!-- Lessons Grid -->
+    <div class="bg-white rounded-2xl shadow-lg p-6">
+     <h2 class="text-xl font-semibold text-gray-800 mb-6 flex items-center gap-2">📖 Danh sách bài học</h2>
+     <div id="lessons-container" class="grid gap-3"><!-- Lessons will be rendered here -->
+     </div>
+    </div><!-- Footer -->
+    <footer class="text-center py-6 text-gray-500 text-sm">
+     <p>💪 Kiên trì học tập - Thành công sẽ đến!</p>
+    </footer>
+   </div>
+  </div>
+  <script>
+    // Lesson data - 28 lessons with sample links
+    const lessons = [
+      { id: 1, title: "Bài 1: Welcome to Learn JavaScript!", link: "https://example.com/lesson-1" },
+      { id: 2, title: "Bài 2: Introduction to JavaScript", link: "https://example.com/lesson-2" },
+      { id: 3, title: "Bài 3: Data types and structures", link: "https://example.com/lesson-3" },
+      { id: 4, title: "Bài 4: Numbers", link: "https://example.com/lesson-4" },
+      { id: 5, title: "Bài 5: Strings", link: "https://example.com/lesson-5" },
+      { id: 6, title: "Bài 6: Booleans", link: "https://example.com/lesson-6" },
+      { id: 7, title: "Bài 7: Null and undefined values", link: "https://example.com/lesson-7" },
+      { id: 8, title: "Bài 8: BigInt", link: "https://example.com/lesson-8" },
+      { id: 9, title: "Bài 9: Symbols", link: "https://example.com/lesson-9" },
+      { id: 10, title: "Bài 10: Variables", link: "https://example.com/lesson-10" },
+      { id: 11, title: "Bài 11: Comparison operators", link: "https://example.com/lesson-11" },
+      { id: 12, title: "Bài 12: Control flow", link: "https://example.com/lesson-12" },
+      { id: 13, title: "Bài 13: Introduction to functions", link: "https://example.com/lesson-13" },
+      { id: 14, title: "Bài 14: Function expressions", link: "https://example.com/lesson-14" },
+      { id: 15, title: "Bài 15: The "new" keyword", link: "https://example.com/lesson-15" },
+      { id: 16, title: "Bài 16: The "return" keyword", link: "https://example.com/lesson-16" },
+      { id: 17, title: "Bài 17: The "this" keyword", link: "https://example.com/lesson-17" },
+      { id: 18, title: "Bài 18: Introduction to objects", link: "https://example.com/lesson-18" },
+      { id: 19, title: "Bài 19: Property accessors", link: "https://example.com/lesson-19" },
+      { id: 20, title: "Bài 20: Prototypal inheritance", link: "https://example.com/lesson-20" },
+      { id: 21, title: "Bài 21: Property descriptors", link: "https://example.com/lesson-21" },
+      { id: 22, title: "Bài 22: Indexed collections", link: "https://example.com/lesson-22" },
+      { id: 23, title: "Bài 23: Keyed collections", link: "https://example.com/lesson-23" },
+      { id: 24, title: "Bài 24: Introduction to classes", link: "https://example.com/lesson-24" },
+      { id: 25, title: "Bài 25: Extend classes", link: "https://example.com/lesson-25" },
+      { id: 26, title: "Bài 26: Class fields and methods", link: "https://example.com/lesson-26" },
+      { id: 27, title: "Bài 27: Static initialization blocks", link: "https://example.com/lesson-27" },
+      { id: 28, title: "Bài 28: Appendix", link: "https://example.com/lesson-28" }
+    ];
+
+    const defaultConfig = {
+      course_title: "📚 Khóa Học Của Tôi",
+      primary_color: "#10b981",
+      background_color: "#f8fafc",
+      text_color: "#1f2937",
+      card_color: "#ffffff",
+      accent_color: "#6366f1"
+    };
+
+    let completedLessons = new Set();
+    let dataRecords = [];
+
+    // Data SDK handler
+    const dataHandler = {
+      onDataChanged(data) {
+        dataRecords = data;
+        completedLessons.clear();
+        data.forEach(record => {
+          if (record.completed) {
+            completedLessons.add(record.lesson_id);
+          }
+        });
+        updateUI();
+      }
+    };
+
+    // Element SDK setup
+    const elementHandler = {
+      defaultConfig,
+      onConfigChange: async (config) => {
+        const title = config.course_title || defaultConfig.course_title;
+        document.getElementById('course-title').textContent = title;
+        
+        document.documentElement.style.setProperty('--primary', config.primary_color || defaultConfig.primary_color);
+        document.body.style.background = `linear-gradient(to bottom right, ${config.background_color || defaultConfig.background_color}, #e0e7ff, #c7d2fe)`;
+      },
+      mapToCapabilities: (config) => ({
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => window.elementSdk.setConfig({ background_color: value })
+          },
+          {
+            get: () => config.card_color || defaultConfig.card_color,
+            set: (value) => window.elementSdk.setConfig({ card_color: value })
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => window.elementSdk.setConfig({ text_color: value })
+          },
+          {
+            get: () => config.primary_color || defaultConfig.primary_color,
+            set: (value) => window.elementSdk.setConfig({ primary_color: value })
+          },
+          {
+            get: () => config.accent_color || defaultConfig.accent_color,
+            set: (value) => window.elementSdk.setConfig({ accent_color: value })
+          }
+        ],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      }),
+      mapToEditPanelValues: (config) => new Map([
+        ["course_title", config.course_title || defaultConfig.course_title]
+      ])
+    };
+
+    function updateUI() {
+      const completed = completedLessons.size;
+      const total = lessons.length;
+      const percent = Math.round((completed / total) * 100);
+
+      // Update progress bar
+      document.getElementById('progress-fill').style.width = `${percent}%`;
+      document.getElementById('progress-text').textContent = `${completed} / ${total} bài học`;
+      document.getElementById('progress-percent').textContent = `${percent}%`;
+
+      // Update motivation text
+      const motivationText = document.getElementById('motivation-text');
+      if (percent === 0) {
+        motivationText.textContent = "🚀 Bắt đầu hành trình học tập của bạn!";
+      } else if (percent < 25) {
+        motivationText.textContent = "💪 Tuyệt vời! Bạn đã bắt đầu rồi, tiếp tục nhé!";
+      } else if (percent < 50) {
+        motivationText.textContent = "🔥 Xuất sắc! Đã gần nửa chặng đường!";
+      } else if (percent < 75) {
+        motivationText.textContent = "⭐ Quá đỉnh! Hơn nửa khóa học hoàn thành!";
+      } else if (percent < 100) {
+        motivationText.textContent = "🏆 Sắp hoàn thành rồi! Cố lên nào!";
+      } else {
+        motivationText.textContent = "🎉 CHÚC MỪNG! Bạn đã hoàn thành khóa học!";
+        createConfetti();
+      }
+
+      // Update lessons list
+      renderLessons();
+      
+      // Update select dropdown
+      updateSelectOptions();
+    }
+
+    function renderLessons() {
+      const container = document.getElementById('lessons-container');
+      
+      lessons.forEach(lesson => {
+        const isCompleted = completedLessons.has(lesson.id);
+        let card = document.getElementById(`lesson-${lesson.id}`);
+        
+        if (!card) {
+          card = document.createElement('a');
+          card.id = `lesson-${lesson.id}`;
+          card.href = lesson.link;
+          card.target = "_blank";
+          card.rel = "noopener noreferrer";
+          card.className = `lesson-card flex items-center gap-4 p-4 rounded-xl border-2 border-gray-100 bg-white`;
+          card.innerHTML = `
+            <div class="lesson-number w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 font-bold text-sm shrink-0">
+              ${lesson.id}
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="lesson-title font-medium text-gray-700 truncate">${lesson.title}</p>
+              <p class="text-xs text-gray-400 mt-1">Nhấn để học bài này →</p>
+            </div>
+            <div class="status-icon shrink-0">
+              ${isCompleted ? '<span class="checkmark text-2xl">✅</span>' : '<span class="text-gray-300 text-xl">○</span>'}
+            </div>
+          `;
+          container.appendChild(card);
+        }
+        
+        // Update completed state
+        if (isCompleted) {
+          card.classList.add('completed');
+          card.classList.remove('border-gray-100');
+          card.querySelector('.status-icon').innerHTML = '<span class="checkmark text-2xl">✅</span>';
+        } else {
+          card.classList.remove('completed');
+          card.classList.add('border-gray-100');
+          card.querySelector('.status-icon').innerHTML = '<span class="text-gray-300 text-xl">○</span>';
+        }
+      });
+    }
+
+    function updateSelectOptions() {
+      const select = document.getElementById('lesson-select');
+      const currentValue = select.value;
+      
+      select.innerHTML = '<option value="">-- Chọn bài học --</option>';
+      
+      lessons.forEach(lesson => {
+        const option = document.createElement('option');
+        option.value = lesson.id;
+        const status = completedLessons.has(lesson.id) ? ' ✅' : '';
+        option.textContent = `${lesson.title}${status}`;
+        select.appendChild(option);
+      });
+      
+      select.value = currentValue;
+    }
+
+    async function markLessonComplete(lessonId) {
+      if (completedLessons.has(lessonId)) return;
+      
+      if (dataRecords.length >= 999) {
+        showToast("Đã đạt giới hạn lưu trữ!", "error");
+        return;
+      }
+
+      const btn = document.getElementById('mark-complete-btn');
+      btn.disabled = true;
+      btn.textContent = "Đang lưu...";
+
+      const result = await window.dataSdk.create({
+        lesson_id: lessonId,
+        completed: true
+      });
+
+      btn.disabled = false;
+      btn.textContent = "Hoàn thành ✓";
+
+      if (result.isOk) {
+        showToast(`Đã hoàn thành Bài ${lessonId}!`, "success");
+      } else {
+        showToast("Có lỗi xảy ra, vui lòng thử lại!", "error");
+      }
+    }
+
+    async function markLessonIncomplete(lessonId) {
+      const record = dataRecords.find(r => r.lesson_id === lessonId);
+      if (!record) return;
+
+      const btn = document.getElementById('mark-incomplete-btn');
+      btn.disabled = true;
+      btn.textContent = "Đang xử lý...";
+
+      const result = await window.dataSdk.delete(record);
+
+      btn.disabled = false;
+      btn.textContent = "Bỏ đánh dấu";
+
+      if (result.isOk) {
+        showToast(`Đã bỏ đánh dấu Bài ${lessonId}`, "info");
+      } else {
+        showToast("Có lỗi xảy ra, vui lòng thử lại!", "error");
+      }
+    }
+
+    function showToast(message, type) {
+      const existing = document.querySelector('.toast');
+      if (existing) existing.remove();
+
+      const toast = document.createElement('div');
+      toast.className = `toast fixed bottom-4 left-1/2 -translate-x-1/2 px-6 py-3 rounded-xl shadow-lg font-medium z-50 transition-all`;
+      
+      if (type === 'success') {
+        toast.style.background = '#10b981';
+        toast.style.color = 'white';
+      } else if (type === 'error') {
+        toast.style.background = '#ef4444';
+        toast.style.color = 'white';
+      } else {
+        toast.style.background = '#6366f1';
+        toast.style.color = 'white';
+      }
+      
+      toast.textContent = message;
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    function createConfetti() {
+      const colors = ['#10b981', '#6366f1', '#f59e0b', '#ec4899', '#3b82f6'];
+      
+      for (let i = 0; i < 50; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + '%';
+        confetti.style.top = '-10px';
+        confetti.style.width = '10px';
+        confetti.style.height = '10px';
+        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+        confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+        
+        document.body.appendChild(confetti);
+        
+        const animation = confetti.animate([
+          { top: '-10px', opacity: 1 },
+          { top: '100%', opacity: 0 }
+        ], {
+          duration: 3000 + Math.random() * 2000,
+          easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+        });
+        
+        animation.onfinish = () => confetti.remove();
+      }
+    }
+
+    // Event listeners
+    document.getElementById('mark-complete-btn').addEventListener('click', () => {
+      const lessonId = parseInt(document.getElementById('lesson-select').value);
+      if (lessonId) {
+        markLessonComplete(lessonId);
+      } else {
+        showToast("Vui lòng chọn bài học!", "error");
+      }
+    });
+
+    document.getElementById('mark-incomplete-btn').addEventListener('click', () => {
+      const lessonId = parseInt(document.getElementById('lesson-select').value);
+      if (lessonId) {
+        markLessonIncomplete(lessonId);
+      } else {
+        showToast("Vui lòng chọn bài học!", "error");
+      }
+    });
+
+    // Initialize
+    async function init() {
+      // Init Element SDK
+      if (window.elementSdk) {
+        window.elementSdk.init(elementHandler);
+      }
+
+      // Init Data SDK
+      if (window.dataSdk) {
+        const result = await window.dataSdk.init(dataHandler);
+        if (!result.isOk) {
+          console.error("Failed to init data SDK");
+        }
+      }
+
+      // Initial render
+      renderLessons();
+      updateSelectOptions();
+    }
+
+    init();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c82194fe78b84b5',t:'MTc3MDEyMzQ5Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
