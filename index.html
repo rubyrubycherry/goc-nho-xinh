@@ -3,7 +3,7 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tiến Trình Khóa Học</title>
+  <title>Tiến Trình Khóa Học JavaScript</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="/_sdk/element_sdk.js"></script>
   <script src="/_sdk/data_sdk.js"></script>
@@ -64,7 +64,7 @@
   <div id="app" class="h-full w-full overflow-auto"><!-- Header -->
    <header class="bg-white/80 backdrop-blur-sm shadow-sm sticky top-0 z-50">
     <div class="max-w-4xl mx-auto px-4 py-4">
-     <h1 id="course-title" class="text-2xl md:text-3xl font-bold text-gray-800 text-center">📚 Khóa Học Của Tôi</h1>
+     <h1 id="course-title" class="text-2xl md:text-3xl font-bold text-gray-800 text-center">📚 Learn JavaScript</h1>
     </div>
    </header><!-- Progress Section -->
    <div class="max-w-4xl mx-auto px-4 py-6">
@@ -83,7 +83,7 @@
      <div class="relative h-4 bg-gray-200 rounded-full overflow-hidden">
       <div id="progress-fill" class="progress-bar h-full rounded-full" style="width: 0%"></div>
      </div>
-     <p id="motivation-text" class="text-center mt-4 text-gray-600 font-medium">🚀 Bắt đầu hành trình học tập của bạn!</p>
+     <p id="motivation-text" class="text-center mt-4 text-gray-600 font-medium">🚀 Bắt đầu hành trình học JavaScript của bạn!</p>
     </div><!-- Mark Complete Section -->
     <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
      <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">✅ Đánh dấu bài học đã hoàn thành</h2>
@@ -105,7 +105,7 @@
    </div>
   </div>
   <script>
-    // Lesson data - 28 lessons with sample links
+    // Lesson data - 28 JavaScript lessons
     const lessons = [
       { id: 1, title: "Bài 1: Welcome to Learn JavaScript!", link: "https://example.com/lesson-1" },
       { id: 2, title: "Bài 2: Introduction to JavaScript", link: "https://example.com/lesson-2" },
@@ -121,9 +121,9 @@
       { id: 12, title: "Bài 12: Control flow", link: "https://example.com/lesson-12" },
       { id: 13, title: "Bài 13: Introduction to functions", link: "https://example.com/lesson-13" },
       { id: 14, title: "Bài 14: Function expressions", link: "https://example.com/lesson-14" },
-      { id: 15, title: "Bài 15: The "new" keyword", link: "https://example.com/lesson-15" },
-      { id: 16, title: "Bài 16: The "return" keyword", link: "https://example.com/lesson-16" },
-      { id: 17, title: "Bài 17: The "this" keyword", link: "https://example.com/lesson-17" },
+      { id: 15, title: "Bài 15: The \"new\" keyword", link: "https://example.com/lesson-15" },
+      { id: 16, title: "Bài 16: The \"return\" keyword", link: "https://example.com/lesson-16" },
+      { id: 17, title: "Bài 17: The \"this\" keyword", link: "https://example.com/lesson-17" },
       { id: 18, title: "Bài 18: Introduction to objects", link: "https://example.com/lesson-18" },
       { id: 19, title: "Bài 19: Property accessors", link: "https://example.com/lesson-19" },
       { id: 20, title: "Bài 20: Prototypal inheritance", link: "https://example.com/lesson-20" },
@@ -138,7 +138,7 @@
     ];
 
     const defaultConfig = {
-      course_title: "📚 Khóa Học Của Tôi",
+      course_title: "📚 Learn JavaScript",
       primary_color: "#10b981",
       background_color: "#f8fafc",
       text_color: "#1f2937",
@@ -218,7 +218,7 @@
       // Update motivation text
       const motivationText = document.getElementById('motivation-text');
       if (percent === 0) {
-        motivationText.textContent = "🚀 Bắt đầu hành trình học tập của bạn!";
+        motivationText.textContent = "🚀 Bắt đầu hành trình học JavaScript của bạn!";
       } else if (percent < 25) {
         motivationText.textContent = "💪 Tuyệt vời! Bạn đã bắt đầu rồi, tiếp tục nhé!";
       } else if (percent < 50) {
@@ -228,7 +228,7 @@
       } else if (percent < 100) {
         motivationText.textContent = "🏆 Sắp hoàn thành rồi! Cố lên nào!";
       } else {
-        motivationText.textContent = "🎉 CHÚC MỪNG! Bạn đã hoàn thành khóa học!";
+        motivationText.textContent = "🎉 CHÚC MỪNG! Bạn đã hoàn thành khóa học JavaScript!";
         createConfetti();
       }
 
@@ -441,5 +441,5 @@
 
     init();
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c82194fe78b84b5',t:'MTc3MDEyMzQ5Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c8236e2b2a7c3e8',t:'MTc3MDEyNDcwOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
